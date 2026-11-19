@@ -1,0 +1,52 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: transaction-processing-service
+
+  datasource:
+    url: jdbc:h2:mem:transactiondb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+  endpoint:
+    health:
+      show-details: always
+
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: transaction-processing-service
+    description: Idempotent Background Transaction Processing Service
+    version: 1.0.0
+
+app:
+  transaction:
+    max-retry-attempts: 3
+    retry-delay-ms: 1000
+    simulate-failure-transaction-id: TXN-4001
+    retry-scheduler-enabled: true
